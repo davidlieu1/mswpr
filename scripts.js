@@ -22,33 +22,35 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
     function openCell(cell){
         if(isGameOver || cell.classList.contains("open")) return;
-        if(cell.classList.contains("mine")){
-            const mineElements = document.querySelectorAll(".mine");
-            for(let i = 0; i < mineElements.length; i++){
-                mineElements[i].style.backgroundColor = "red";
-            }
-            gameOver();
-        }else{
-            cell.classList.add("open");
-            const index = parseInt(cell.getAttribute("data-index"));
-            nearby = getNearbyMines(index);
-            if(nearby == 0){
-                const neighbors = getNeighbors(index);
-                for(let i = 0; i < neighbors.length; i++){
-                    let nearbyMines = getNearbyMines(neighbors[i]);
-                    if(!cells[neighbors[i]].classList.contains("mine")){
-                        openCell(cells[neighbors[i]]);
-                    }
+        else{
+            if(cell.classList.contains("mine")){
+                const mineElements = document.querySelectorAll(".mine");
+                for(let i = 0; i < mineElements.length; i++){
+                    mineElements[i].style.backgroundColor = "red";
                 }
+                gameOver();
             }else{
-                cell.textContent = nearby;
+                cell.classList.add("open");
+                const index = parseInt(cell.getAttribute("data-index"));
+                nearby = getNearbyMines(index);
+                if(nearby == 0){
+                    const neighbors = getNeighbors(index);
+                    for(let i = 0; i < neighbors.length; i++){
+                        let nearbyMines = getNearbyMines(neighbors[i]);
+                        if(!cells[neighbors[i]].classList.contains("mine")){
+                            openCell(cells[neighbors[i]]);
+                        }
+                    }
+                }else{
+                    cell.textContent = nearby;
+                }
+                checkForWin();
             }
-            checkForWin();
         }
     }
 
     function gameOver(){
-        gameOver = true;
+        isGameOver  = true;
         alert("you Lost!");
     }
 
