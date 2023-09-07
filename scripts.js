@@ -27,11 +27,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
             if(cell.classList.contains("mine")){
                 const mineElements = document.querySelectorAll(".mine");
                 for(let i = 0; i < mineElements.length; i++){
-                    mineElements[i].style.backgroundColor = "#800000";
-                    mineElements[i].style.opacity = "0.8";
-                    img = document.createElement("img");
-                    img.src="../src/bomb.png"
-                    mineElements[i].appendChild(img);
+                    if (!mineElements[i].classList.contains("flag")){
+                        mineElements[i].style.backgroundColor = "#800000";
+                        mineElements[i].style.opacity = "0.8";
+                        img = document.createElement("img");
+                        img.src="../src/bomb.png";
+                        mineElements[i].appendChild(img);
+                    }
                 }
                 gameOver();
             }else{
@@ -79,17 +81,28 @@ document.addEventListener("DOMContentLoaded", ()=> {
         flagsLeft.textContent = flags;
         
     }
+
+    function overlayOn(text){
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("overlay-text").textContent = text;
+    }
+
+    function overlayOff(){
+        let overlay=document.getElementById("overlay");
+        overlay.style.display = "none";
+    }
+
     function gameOver(){
         isGameOver  = true;
-        alert("Game Over");
+        overlayOn('defeat');
     }
 
     function checkForWin(){
         const cells = document.querySelectorAll(".cell");
         const safeCells = Array.from(cells).filter(cell => !cell.classList.contains("mine"));
         if (safeCells.every(cell => cell.classList.contains("open"))) {
-            alert("You win!");
             isGameOver = true;
+            overlayOn('victory')
         }
 
     }
@@ -129,6 +142,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     }
     
     function resetGame(){
+        overlayOff();
         isGameOver = false;
         board.innerHTML = "";
         cells = createBoard();
