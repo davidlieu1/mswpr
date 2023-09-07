@@ -1,7 +1,5 @@
 body{
     text-align: center;
-    justify-content: center;
-    align-items: center;
     background: linear-gradient(90deg, rgba(34,193,195,1) 0%, rgba(134,220,102,1) 61%, rgba(253,237,45,1) 100%);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, Helvetica, sans-serif;
 }
@@ -34,7 +32,7 @@ body{
 
 .board{
     display:grid;
-    margin:10px;
+    margin:0px;
     grid-template-columns:repeat(10,30px);
     padding:10px; 
     justify-content: center;
@@ -54,4 +52,24 @@ body{
 .cell.open {
     background-color: #eee;
     cursor: default;
+}
+.status-wrapper{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.status-item{
+    margin-bottom: 0px;
+}
+.status-left{
+    text-align: right;
+    padding-right: 100px;
+}
+.status-right{
+    text-align: left;
+    padding-left: 100px;
+}
+.status-item span{
+    font-size: larger;
+    position: relative;
+    bottom: 6px;
 }
