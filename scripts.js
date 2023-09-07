@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     let height = 10;
     let mines = 20;
     let isGameOver = false;
+    let flags = mines;
 
     function createBoard(){
         const cells = [];
@@ -21,12 +22,16 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 
     function openCell(cell){
-        if(isGameOver || cell.classList.contains("open")) return;
+        if(isGameOver || cell.classList.contains("open") || cell.classList.contains("flag")) return;
         else{
             if(cell.classList.contains("mine")){
                 const mineElements = document.querySelectorAll(".mine");
                 for(let i = 0; i < mineElements.length; i++){
-                    mineElements[i].style.backgroundColor = "red";
+                    mineElements[i].style.backgroundColor = "#800000";
+                    mineElements[i].style.opacity = "0.8";
+                    img = document.createElement("img");
+                    img.src="../src/bomb.png"
+                    mineElements[i].appendChild(img);
                 }
                 gameOver();
             }else{
@@ -49,9 +54,34 @@ document.addEventListener("DOMContentLoaded", ()=> {
         }
     }
 
+    function flagCell(cell){
+        if(isGameOver) return;
+        if(!cell.classList.contains('flag') && !cell.classList.contains('open')){
+            img = document.createElement("img");
+            img.src="../src/flag.png"
+            cell.appendChild(img);
+            cell.classList.add('flag');
+            flags--;
+
+        }else{
+            cell.removeChild(cell.children[0]);
+            cell.classList.remove('flag');
+            flags++;
+        }
+        updateRemainders();
+    }
+
+    function updateRemainders(){
+        bombsLeft = document.querySelector(".bomb");
+        flagsLeft = document.querySelector(".flag");
+        
+        bombsLeft.textContent = flags;
+        flagsLeft.textContent = flags;
+        
+    }
     function gameOver(){
         isGameOver  = true;
-        alert("you Lost!");
+        alert("Game Over");
     }
 
     function checkForWin(){
@@ -103,9 +133,16 @@ document.addEventListener("DOMContentLoaded", ()=> {
         board.innerHTML = "";
         cells = createBoard();
         plantMines(cells);
+        flags = 20;
+        updateRemainders();
         cells.forEach(cell => {
             cell.textContent = "";
             cell.addEventListener("click", () => openCell(cell));
+            cell.addEventListener('contextmenu', function(ev) {
+                ev.preventDefault();
+                flagCell(cell);
+                return false;
+            }, false);
         });
     }
 
