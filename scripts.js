@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
                         mineElements[i].style.backgroundColor = "#800000";
                         mineElements[i].style.opacity = "0.8";
                         img = document.createElement("img");
-                        img.src="../src/bomb.png";
+                        img.src="./src/bomb.png";
                         mineElements[i].appendChild(img);
                     }
                 }
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
         if(isGameOver) return;
         if(!cell.classList.contains('flag') && !cell.classList.contains('open')){
             img = document.createElement("img");
-            img.src="../src/flag.png"
+            img.src="./src/flag.png";
             cell.appendChild(img);
             cell.classList.add('flag');
             flags--;
